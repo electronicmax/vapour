@@ -1,16 +1,20 @@
 
-function Clouddead(tracker) {
+/* client for the Cloudbust Overlay Network */
+function Cloudbust(tracker) {
     this.tracker = tracker;
-    this.storage = sessionStorage;
-    if (this.storage.__my_id == undefined) {
-        this.storage.__my_id = 'storage-node-'+(new Date()).valueOf();
-    }
-    this.my_id = this.storage.__my_id;
+    this.storage = localStorage;
+    this.generate_id();
     this.listen();
     this.get_response_wait = {};
 };
 
-Clouddead.prototype = {
+Cloudbust.prototype = {
+    generate_id:function() {
+        if (this.storage.__my_id == undefined) {
+            this.storage.__my_id = 'storage-node-'+(new Date()).valueOf();
+        }
+        this.my_id = this.storage.__my_id;
+    },
     listen:function() {
         var this_ = this;
         this._connect().
@@ -39,20 +43,20 @@ Clouddead.prototype = {
             this._.abort();
             delete this._;
         }
-        console.log(" _ connect ", this.tracker, data.msg, data.key, data.val, data);
+        // console.log(" _ connect ", this.tracker, data.msg, data.key, data.val, data);
         data.i_am = this.my_id;
         this._ = $.getJSON(this.tracker, data);
         return this._;
     },
     _handle_get:function(message) {
-        console.log("_handle_get >>>>> ", message);        
+        // console.log("_handle_get >>>>> ", message);        
         var this_ = this;
         var key = message.key;
         if (this.storage[key] !== undefined) {
-            console.log("_handle_get responding with  ", key, this.storage[key]);        
+            // console.log("_handle_get responding with  ", key, this.storage[key]);        
             this._connect({ id: message.id, msg: "get_response", data: this.storage[key] }).
                 success(function(message) {
-                            console.log("_handle_get response from response  ", message); 
+                            // console.log("_handle_get response from response  ", message); 
                             this_._handleMessage(message);
                         }).
                 fail(function(f) {
@@ -70,7 +74,7 @@ Clouddead.prototype = {
     },
     _handle_get_response:function(message) {
         if (this.get_response_wait[message.get_request_id]) {
-            console.log("_handle_get_response win for id id ",  message.get_request_id);
+            // console.log("_handle_get_response win for id id ",  message.get_request_id);
             this.get_response_wait[message.get_request_id](message)
         } else {
             console.log("_handle_get_response error > none for id ",  message.get_request_id);
@@ -83,7 +87,6 @@ Clouddead.prototype = {
         var get_request_id = "get-"+key+"-"+(new Date()).valueOf();
         this_.get_response_wait[get_request_id] =
             function(message) {
-                console.log("response wait message ", message);
                 delete this_.get_response_wait[get_request_id];
                 d.resolve(message.value);
             };        
@@ -102,5 +105,10 @@ Clouddead.prototype = {
                      console.error("puterror() ", error); 
                   });
         return d.promise();
+    },
+    clear:function() {
+        // only clears local storage 
+        this.storage.clear();
+        this.generate_id();
     }
 };
