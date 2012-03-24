@@ -2,7 +2,7 @@
 # vapour.js
 ## an-browser, peer-to-peer distributed datastore
 
-### why make a cloud when you just have a bit of data?
+### why rely on someone else's cloud when you just have a bit of data?
 
 Don't you like sunny days better than cloudy ones?  With all the hype
 around "cloud computing" we have lost sight of what cloud computing
@@ -19,7 +19,7 @@ available to host that data.  Heck, our smartphones probably have
 enough computational resources and bandwidth to host this data for
 us...
 
-### let's build a peer-to-peer database out of everyone's browsers!
+### let's build our own cloud - a browser at a time
 
 This sounds like a terrible idea, and it probably is.  This library
 is merely a proof of concept inspired by Bittorrent that allows
