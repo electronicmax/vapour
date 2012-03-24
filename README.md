@@ -42,8 +42,8 @@ freedom in the cloud") for some real inspiration.
 
 ### credits
 
-- Code and concept : [electronic Max](http://hip.cat/emax electronic Max)
-- Cloudstorming concept : [mc schraefel](http://users.ecs.soton.ac.uk/mc/ mc schraefel)
+- Code and concept : [electronic Max](http://hip.cat/emax)
+- Cloudstorming concept : [mc schraefel](http://users.ecs.soton.ac.uk/mc/)
 
 
 
