@@ -1,6 +1,6 @@
 
 # vapour.js
-## an-browser, peer-to-peer distributed datastore
+## an in-browser, peer-to-peer distributed datastore in pure js
 
 ### why rely on someone else's cloud when you just have a bit of data?
 
