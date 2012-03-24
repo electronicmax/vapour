@@ -48,6 +48,7 @@ var blank_response = function(req,response) {   return make_responder(req,respon
 
 var handlers = {
     hello: function(req,res) {
+        // keepers
         if (!keep_client(req,res)) {
             make_responder(req,res)('Please provide a name and a callback -- ',300);
         };
@@ -58,10 +59,6 @@ var handlers = {
         if (clients[query.to] !== undefined) {
             clients[query.to].make_responder(query.message);
         }
-        //  hang on to us -- keep us polling
-        if (!keep_client(req,response)) {
-            make_responder(req,res)('Please provide a name and a callback -- ',300);
-        }        
     },
     _choose_nodes:function(key) {
         return und(clients).keys();
@@ -74,9 +71,8 @@ var handlers = {
         var savers = this._choose_nodes(key);
         console.log("savers length ", savers.length, clients);
         seeds[key] = savers;                                 
-        savers.map(function(k) {
-                       clients[k].responder({ msg: "put", key: key, data: data });
-                   });
+        savers.map(function(k) { clients[k].responder({ msg: "put", key: key, data: data }); });
+        make_responder(req,res)({status:200});
     },    
     get:function(req,res) {
         var query = url.parse(req.url,true).query;
@@ -87,21 +83,21 @@ var handlers = {
         console.log(" __handle_get ", key, seeds);
         if (seeds[key] !== undefined) {
             console.log(" __seeds has  ", key);
-
             // fabricate a new id to use to query all the remote nodes
             var remote_response_id =  new Date().valueOf();
             response_halves[remote_response_id] = function(data) {
                 // responding!
-                var query = url.parse(req.url,true).query;
-                if (clients[asker]) {
-                    clients[asker].responder({msg:"get_response", get_request_id:get_request_id, value:data});
-                } else {
-                    console.error(" no connection to ", asker);
-                }
-                // make_responder(req,res)(data);
-                delete response_halves[remote_response_id];
+                make_responder(req,res)({value:data});
+                
+                // var query = url.parse(req.url,true).query;
+                // if (clients[asker]) {
+                //     clients[asker].responder({msg:"get_response", get_request_id:get_request_id, value:data}w);
+                // } else {
+                //     console.error(" no connection to ", asker);
+                // }
+                // // make_responder(req,res)(data);
+                // delete response_halves[remote_response_id];
             };
-
             var actives = seeds[key].filter(function(c_id) { return clients[c_id]; });
             console.log(" got active clients ", seeds[key].length, " - actives: ", actives.length);
             actives.map(function(c) {
@@ -109,7 +105,8 @@ var handlers = {
                             clients[c].responder({msg: "get",  key:key, id:remote_response_id });
                         });            
         }
-    },
+        // do not reply because we'll reply later -- 
+     },
     get_response:function(req,res) {
         // second half of a get request, someone coming back with an id respon
         var query = url.parse(req.url,true).query;
@@ -118,13 +115,14 @@ var handlers = {
         if (query.id && response_halves[id]) {
             response_halves[id](query.data);
         }
+        make_responder(req,res)({status:200});        
     }
 };
 
 exports.start = function() {
     var app = http.createServer(function(req, res) {
                                     var query = url.parse(req.url,true).query;
-                                    keep_client(req,res);
+                                    console.log(" INCOMING >> ", query.msg);
                                     if (handlers[query.msg] == undefined) {
                                         return make_responder(req,res)("Dont know that command " + query.msg, 400);
                                     }
