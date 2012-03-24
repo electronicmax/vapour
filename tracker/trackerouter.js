@@ -3,7 +3,7 @@
 var sys = require ('sys'),
     url = require('url'),
     http = require('http'),
-    und = require('./lib/underscore.js'),
+    und = require('./underscore.js'),
     qs = require('querystring');
 
 var relay_id = 'hello-relay-' + new Date().valueOf();
@@ -80,23 +80,12 @@ var handlers = {
         var key = query.key;
         var asker = query.i_am;
         var get_request_id = query.get_request_id;
-        console.log(" __handle_get ", key, seeds);
         if (seeds[key] !== undefined) {
             console.log(" __seeds has  ", key);
             // fabricate a new id to use to query all the remote nodes
             var remote_response_id =  new Date().valueOf();
             response_halves[remote_response_id] = function(data) {
-                // responding!
                 make_responder(req,res)({value:data});
-                
-                // var query = url.parse(req.url,true).query;
-                // if (clients[asker]) {
-                //     clients[asker].responder({msg:"get_response", get_request_id:get_request_id, value:data}w);
-                // } else {
-                //     console.error(" no connection to ", asker);
-                // }
-                // // make_responder(req,res)(data);
-                // delete response_halves[remote_response_id];
             };
             var actives = seeds[key].filter(function(c_id) { return clients[c_id]; });
             console.log(" got active clients ", seeds[key].length, " - actives: ", actives.length);
@@ -104,6 +93,9 @@ var handlers = {
                             console.log("sending off a request for ", key, remote_response_id, c);
                             clients[c].responder({msg: "get",  key:key, id:remote_response_id });
                         });            
+        } else {
+            // not found
+            make_responder(req,res)({status:404, message:"key not found in tracker"}, 404);
         }
         // do not reply because we'll reply later -- 
      },
