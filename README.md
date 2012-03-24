@@ -27,3 +27,18 @@ everyone's browser who accesses your webpage to participate in a giant
 distributed data store, so that everyone can participate in helping
 one another store their little bits of information.
 
+### cloudbusting
+
+by starting to build tools to replace the Cloud infrastructure, we 
+can start to take back the Web to its original ideals: free, open
+communication, run by us, for one another.
+
+See This is [Cloudbusting](http://www.youtube.com/watch?v=IRHA9W-zExQ
+"Cloudbusting") or [Something
+good](http://www.youtube.com/watch?v=oMLCrzy9TEs "Something good")
+(which samples the same song!) for inspiration, or [Eben
+Moglen](http://www.youtube.com/watch?v=QOEMv0S8AcA "Eben Moglen -
+freedom in the cloud") for some real inspiration.
+
+
+
