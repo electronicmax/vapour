@@ -24,7 +24,6 @@ Cloudbust.prototype = {
                           console.error("listen error >> ", e.statusText, e);
                           setTimeout(function() { this_.listen(); }, 1000);
                       }
-                      // this_.listen();
                   });
     },
     _handleMessage:function(message)     {
@@ -74,12 +73,8 @@ Cloudbust.prototype = {
     },
     _handle_get_response:function(message) {
         if (this.get_response_wait[message.get_request_id]) {
-            // console.log("_handle_get_response win for id id ",  message.get_request_id);
-            this.get_response_wait[message.get_request_id](message)
-        } else {
-            console.log("_handle_get_response error > none for id ",  message.get_request_id);
-        }
-        this._connect();
+            this.get_response_wait[message.get_request_id](message);
+        } else { console.log("_handle_get_response error > none for id ",  message.get_request_id);  }
     },
     get:function(key) {
         var d = new $.Deferred();
@@ -87,10 +82,13 @@ Cloudbust.prototype = {
         var get_request_id = "get-"+key+"-"+(new Date()).valueOf();
         this_.get_response_wait[get_request_id] =
             function(message) {
+                // we've handled already so continue...
                 delete this_.get_response_wait[get_request_id];
                 d.resolve(message.value);
-            };        
-        this._connect({ msg:"get", key: key, get_request_id:get_request_id }).success(function(message) {  this_._handleMessage(message); });
+            };
+        this._connect({ msg:"get", key: key, get_request_id:get_request_id }).success(
+            function(message) {  this_._handleMessage(message); }
+        );        
         return d.promise();
     },
     put:function(key,value) {
