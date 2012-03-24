@@ -13,11 +13,10 @@ of personal data somewhere, in a way that it can be accessed by the
 user anywhere later.  Some but not all of us, have the
 resources/knowledge/time to find a server to host a database for us.
 
-Most of us do, however, have a lot of computers hanging around:
-devices which each have more than enough computational resources
-available to host that data.  Heck, our smartphones probably have
-enough computational resources and bandwidth to host this data for
-us...
+Most of us have a lot of extra machines hanging around, and many of
+them have persistent connections to the Web.  Heck, our smartphones
+probably have enough computational resources and bandwidth to host
+this data for us. Why don't we just use these devices?
 
 ### let's build our own cloud - a browser at a time
 
