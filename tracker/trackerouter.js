@@ -1,4 +1,6 @@
-// cloudless router and tracker (c) 2012 electronic max
+// vapour router and tracker (c) 2012 electronic max
+// http://hip.cat/vapour
+// licensed under the MIT License 
 
 var sys = require ('sys'),
     url = require('url'),

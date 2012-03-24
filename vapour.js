@@ -1,4 +1,8 @@
-/* client for the Vapour Overlay Network */
+// vapour client (c) 2012 electronic max
+// http://hip.cat/vapour
+// Released under MIT License 
+
+/* client for the Vapour DHT */
 function Vapour(tracker) {
     this.tracker = tracker;
     this.storage = localStorage;
