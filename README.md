@@ -40,5 +40,12 @@ good](http://www.youtube.com/watch?v=oMLCrzy9TEs "Something good")
 Moglen](http://www.youtube.com/watch?v=QOEMv0S8AcA "Eben Moglen -
 freedom in the cloud") for some real inspiration.
 
+### credits
+
+- Code and concept : [electronic Max](http://hip.cat/emax electronic Max)
+- Cloudstorming concept : [mc schraefel](http://users.ecs.soton.ac.uk/mc/ mc schraefel)
+
+
+
 
 
